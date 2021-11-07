@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Записи сообщества {{ group.title }} {% endblock %}
+{% block content %}
+<main role="main" class="container">
+    <div class="row">
+            <div class="col-md-3 mb-3 mt-1">
+                {% include "included/author.html" with author=author %}
+        </div>
+
+        <div class="col-md-9">
+            {% include "included/post_item.html" with post=user_post %}
+            {% include "included/comments.html" with post=user_post form=form comments=comments %}
+     </div>
+    </div>
+</main>
+{% endblock %}
