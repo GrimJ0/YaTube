@@ -15,6 +15,9 @@ class Group(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = 'Группа'
+        verbose_name_plural = 'Группы'
 
 class Post(models.Model):
 
@@ -25,7 +28,7 @@ class Post(models.Model):
                             verbose_name='Сообщество',
                             help_text='Выберите группу'
                             )
-    title = models.CharField(verbose_name='Заголовок', max_length=100, unique=True)
+    title = models.CharField(verbose_name='Заголовок', max_length=100)
     text = models.TextField(verbose_name='Текст поста', help_text='Введите текст вашего поста')
     pub_date = models.DateTimeField("Дата публикации", auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts", verbose_name='Автор')
