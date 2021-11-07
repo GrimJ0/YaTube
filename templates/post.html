@@ -8,7 +8,7 @@
         </div>
 
         <div class="col-md-9">
-            {% include "included/post_item.html" with post=user_post %}
+            {% include "included/post_item.html" with post=user_post user_post=user_post %}
             {% include "included/comments.html" with post=user_post form=form comments=comments %}
      </div>
     </div>

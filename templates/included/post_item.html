@@ -12,7 +12,14 @@
             <a name="post_{{ post.id }}" href="{% url 'profile' post.author.username %}">
                 <strong class="d-block text-gray-dark">@{{ post.author }}</strong>
             </a>
-            {{ post.text|safe|linebreaksbr }}
+            <h1><a name="post_{{ post.id }}" href="{% url 'post' post.author.username post.id %}">
+                <strong class="d-block text-dark">{{ post.title }}</strong>
+            </a></h1>
+            {% if user_post %}
+                {{ post.text|safe|linebreaksbr }}
+            {% else %}
+                {{ post.text|safe|linebreaksbr|truncatechars:500 }}
+            {% endif %}
         </p>
 
         <!-- Если пост относится к какому-нибудь сообществу, то отобразим ссылку на него через # -->
