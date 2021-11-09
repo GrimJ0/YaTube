@@ -14,6 +14,7 @@ class TextMix:
         )
         # создаём пост от имени пользователя
         self.post = Post.objects.create(
+            title="test",
             text="Hello",
             author=self.user)
 
@@ -59,6 +60,7 @@ class TestStringMethods(TextMix, TestCase):
         self.client.login(username='sarah', password='test')
         self.client.post(reverse('new_post'), data={
             'author': self.user,
+            'title': 'test',
             'text': 'test_cach',
         })
         response = self.client.get(reverse('index'))
@@ -80,7 +82,10 @@ class TestPostEditMethod(TextMix, TestCase):
         self.client.login(username='sarah', password='test')
         response = self.client.get(f"/sarah/{self.post.id}/edit/")
         self.assertEqual(response.status_code, 200)
-        self.client.post(f"/sarah/{self.post.id}/edit/", data={"text": new_text})
+        self.client.post(f"/sarah/{self.post.id}/edit/", data={
+                                                                "title": 'test',
+                                                                "text": new_text,
+                                                                })
         self.post.refresh_from_db()
         self.assertEqual(self.post.text, new_text)
 
@@ -109,16 +114,16 @@ class TestPostLoadImage(TestCase):
         )
         cache.clear()
         self.client.login(username='jon', password='test')
-        with open('media/posts/lt.jpg', 'rb') as img:
+        with open('test_data/lt.jpg', 'rb') as img:
             self.client.post(reverse('new_post'), data={
                                                         'author': self.user,
+                                                        'title': 'test',
                                                         'text': 'test_text',
                                                         'group': self.group.id,
                                                         'image': img
             })
         self.post = Post.objects.first()
     def test_img_in_text(self):
-        response = self.client.get(reverse('index'))
         urls = (
             reverse('index'),
             reverse('post', kwargs={'username': self.user.username, 'post_id': self.post.id}),
@@ -130,9 +135,10 @@ class TestPostLoadImage(TestCase):
             self.assertContains(response, '<img', status_code=200)
 
     def test_load_txt(self):
-        with open('media/posts/text_txt.txt', 'rb') as img:
+        with open('test_data/test_txt.txt', 'rb') as img:
             self.client.post(reverse('new_post'), data={
                                                         'author': self.user,
+                                                        'title': 'test',
                                                         'text': 'test_2_text',
                                                         'group': self.group.id,
                                                         'image': img
