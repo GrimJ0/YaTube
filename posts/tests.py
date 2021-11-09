@@ -6,7 +6,7 @@ from django.core.cache import cache
 
 class TextMix:
     def setUp(self):
-        # создание тестового клиента — подходящая задача для функции setUp()
+        """создание тестового клиента"""
         self.client = Client()
         # создаём пользователя
         self.user = User.objects.create_user(

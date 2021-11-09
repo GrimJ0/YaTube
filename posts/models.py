@@ -5,7 +5,7 @@ User = get_user_model()
 
 
 class Group(models.Model):
-
+    """Модель сообщества"""
     title = models.CharField(verbose_name='Название сообщества', max_length=100)
     slug = models.SlugField(verbose_name='Адрес',
                             help_text='Задайте уникальный адрес сообщества',
@@ -20,7 +20,7 @@ class Group(models.Model):
         verbose_name_plural = 'Группы'
 
 class Post(models.Model):
-
+    """Модель постов"""
     group = models.ForeignKey(
                             Group, blank=True, null=True,
                             related_name="posts",
@@ -47,7 +47,7 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-
+    """Модель комментариев"""
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments", verbose_name='Пост')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments", verbose_name='Автор')
     text = models.TextField(verbose_name='Комментария', help_text='Введите ваш комментарий')
@@ -63,7 +63,7 @@ class Comment(models.Model):
 
 
 class Follow(models.Model):
-
+    """Модель подписок"""
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="follower", verbose_name='Подписчик')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following", verbose_name='Автор')
 
